@@ -7,20 +7,67 @@
     tools:context=".MainActivity">
 
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lySearch"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbNotes"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?colorOnPrimary">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@id/ibSearch"
+                android:gravity="center_vertical"
+                android:text="@string/app_name"
+                android:textColor="?colorOnBackground"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <ImageButton
+                android:id="@+id/ibSearch"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/ibAboutUs"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save_note"
+                android:src="@drawable/ic_search" />
+
+            <ImageButton
+                android:id="@+id/ibAboutUs"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="true"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save_note"
+                android:src="@drawable/ic_info" />
+        </RelativeLayout>
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/lySearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tbNotes"
+        android:layout_margin="8dp"
+        android:hint="Search"
+        android:visibility="gone">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etSearch"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:hint="Search">
+            android:drawableStart="@drawable/ic_search"
+            android:drawablePadding="8dp">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etSearch"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_search"
-                android:drawablePadding="8dp" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvNotes"
@@ -60,6 +107,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="24dp"
         android:layout_marginBottom="24dp"
+        android:backgroundTint="?colorOnError"
         android:contentDescription="@string/add_note"
 
         android:src="@drawable/ic_add" />

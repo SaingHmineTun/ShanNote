@@ -35,12 +35,14 @@ public class AddNoteActivity extends AppCompatActivity {
         checkForUpdate();
     }
 
+
     private void checkForUpdate() {
         Serializable ser = getIntent().getSerializableExtra("old_note");
         if (ser != null) {
             note = (Note) ser;
             binding.etTitle.setText(note.getTitle());
             binding.etNote.setText(note.getNote());
+            binding.tvAppTitle.setText(getResources().getString(R.string.update_note));
         }
     }
 
