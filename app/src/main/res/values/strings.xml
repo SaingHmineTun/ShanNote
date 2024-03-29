@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Shan Note</string>
+    <string name="title">Title</string>
+    <string name="pinned">Pinned</string>
+    <string name="there_is_no_note_to_show">There is no note to show</string>
+    <string name="add_note">Add Note</string>
+    <string name="save_note">Save Note</string>
+</resources>
