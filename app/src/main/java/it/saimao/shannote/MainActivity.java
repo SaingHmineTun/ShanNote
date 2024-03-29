@@ -2,21 +2,27 @@ package it.saimao.shannote;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import it.saimao.shannote.activity.AboutUsActivity;
 import it.saimao.shannote.activity.AddNoteActivity;
 import it.saimao.shannote.adapter.NoteAdapter;
 import it.saimao.shannote.adapter.NoteClickListener;
@@ -28,6 +34,7 @@ import it.saimao.shannote.model.Note;
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
+    private boolean isSearchEnabled;
     private final NoteClickListener noteClickListener = new NoteClickListener() {
         @Override
         public void onNoteClicked(Note note) {
@@ -38,9 +45,10 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onNoteLongClicked(Note note, CardView cardView) {
-
+            showPopup(note, cardView);
         }
     };
+
     private List<Note> allNotes, filteredNotes;
     private NoteDao noteDao;
     private final int ADD_NOTE_REQUEST_CODE = 101;
@@ -60,6 +68,22 @@ public class MainActivity extends AppCompatActivity {
         binding.fabAdd.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddNoteActivity.class);
             startActivityForResult(intent, ADD_NOTE_REQUEST_CODE);
+        });
+        binding.ibSearch.setOnClickListener(v -> {
+            if (isSearchEnabled) {
+                // Disable Search Function
+                binding.ibSearch.setImageResource(R.drawable.ic_search);
+                binding.lySearch.setVisibility(View.GONE);
+
+            } else {
+                // Enable Search Function
+                binding.ibSearch.setImageResource(R.drawable.ic_clear);
+                binding.lySearch.setVisibility(View.VISIBLE);
+            }
+            isSearchEnabled = !isSearchEnabled;
+        });
+        binding.ibAboutUs.setOnClickListener(v -> {
+            startActivity(new Intent(this, AboutUsActivity.class));
         });
         binding.etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -99,11 +123,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
+        isSearchEnabled = false;
         NoteDatabase database = NoteDatabase.getInstance(this);
         noteDao = database.getNoteDao();
         allNotes = noteDao.getAllNotes();
         filteredNotes = new ArrayList<>(allNotes);
         updateRecycler();
+    }
+
+
+    private void showPopup(Note note, CardView cardView) {
+        PopupMenu popupMenu = new PopupMenu(this, cardView, Gravity.CENTER, 0, R.style.AppTheme);
+        popupMenu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.mPin) {
+                note.setPinned(!note.isPinned());
+                noteDao.updateNote(note);
+            } else {
+                noteDao.deleteNote(note);
+            }
+            allNotes = noteDao.getAllNotes();
+            filteredNotes.clear();
+            filteredNotes.addAll(allNotes);
+            noteAdapter.notifyDataSetChanged();
+            return true;
+        });
+        popupMenu.inflate(R.menu.popup_menu);
+        popupMenu.show();
     }
 
 
