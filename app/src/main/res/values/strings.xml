@@ -10,4 +10,7 @@
     <string name="we_are_tmk_group">We are TMK Group</string>
     <string name="about_us">About Us</string>
     <string name="update_note">Update Note</string>
+    <string name="apply">apply</string>
+    <string name="newly_created">Newly Created</string>
+    <string name="last_updated">Last Updated</string>
 </resources>

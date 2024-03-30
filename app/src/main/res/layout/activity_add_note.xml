@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     android:orientation="vertical"
     tools:context=".activity.AddNoteActivity">
 
@@ -26,17 +27,23 @@
                 android:contentDescription="@string/save_note"
                 android:src="@drawable/ic_back" />
 
-            <TextView
-                android:id="@+id/tvAppTitle"
-                android:layout_width="0dp"
+            <ImageButton
+                android:id="@+id/ibColor"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/ibPin"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save_note"
+                android:src="@drawable/ic_color" />
+
+            <ImageButton
+                android:id="@+id/ibPin"
+                android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_toStartOf="@id/ivSave"
-                android:layout_toEndOf="@id/ivBack"
-                android:gravity="center_vertical"
-                android:text="@string/add_note"
-                android:textColor="?colorOnBackground"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save_note"
+                android:src="@drawable/ic_unpin" />
 
             <ImageButton
                 android:id="@+id/ivSave"
@@ -49,10 +56,96 @@
         </RelativeLayout>
     </androidx.appcompat.widget.Toolbar>
 
+    <com.google.android.flexbox.FlexboxLayout
+        android:id="@+id/lyTheme"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:visibility="gone"
+        app:justifyContent="space_evenly">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv0"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="?colorPrimaryContainer"
+            android:onClick="changeColor"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="?colorOnPrimaryContainer"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/apply"
+                android:padding="8dp"
+                android:src="@drawable/ic_apply"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="?colorSecondaryContainer"
+            android:onClick="changeColor"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="?colorOnSecondaryContainer"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/apply"
+                android:padding="8dp"
+                android:src="@drawable/ic_apply"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv2"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="?colorTertiaryContainer"
+            android:onClick="changeColor"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="?colorOnTertiaryContainer"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/apply"
+                android:padding="8dp"
+                android:src="@drawable/ic_apply"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv3"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:backgroundTint="?colorErrorContainer"
+            android:onClick="changeColor"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="?colorOnErrorContainer"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/apply"
+                android:padding="8dp"
+                android:src="@drawable/ic_apply"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+    </com.google.android.flexbox.FlexboxLayout>
+
     <EditText
         android:id="@+id/etTitle"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="60dp"
         android:layout_marginTop="8dp"
         android:autofillHints=""
         android:background="@android:color/transparent"
@@ -66,14 +159,27 @@
     <EditText
         android:id="@+id/etNote"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:autofillHints=""
         android:background="@android:color/transparent"
         android:gravity="top"
         android:hint="Add Note"
         android:padding="8dp"
-        android:textSize="18sp"
+        android:textSize="18sp" />
 
-        />
+    <TextView
+        android:id="@+id/tvLastUpdated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:text="Last Updated"
+        android:textAlignment="center"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

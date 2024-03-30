@@ -1,5 +1,8 @@
 package it.saimao.shannote.adapter;
 
+import static it.saimao.shannote.utils.Utils.COLORS;
+import static it.saimao.shannote.utils.Utils.getColorFromTheme;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +61,8 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         int color = getRandomColor();
         holder.noteContainer.setCardBackgroundColor(color);
          */
+
+        holder.cvNoteContainer.setCardBackgroundColor(getColorFromTheme(context, COLORS.get(note.getColor())));
 
 //        holder.cvNoteContainer.setOnClickListener(v -> noteClickListener.onNoteClicked(note));
         holder.cvNoteContainer.setOnClickListener(v -> noteClickListener.onNoteClicked(note));

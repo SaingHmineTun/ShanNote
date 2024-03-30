@@ -10,6 +10,8 @@ import java.util.Date;
 public class Note implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id = 0;
+    private int color = 0;
+
     private String title = "";
     private String note = "";
     private Date created = null;
@@ -46,6 +48,14 @@ public class Note implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getColor() {
+        return color;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
     }
 
     public String getNote() {

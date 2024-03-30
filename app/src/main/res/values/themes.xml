@@ -1,6 +1,7 @@
 
 <resources>
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+
         <item name="android:statusBarColor">@color/md_theme_light_onPrimary</item>
         <item name="android:popupBackground">@color/md_theme_light_onSecondary</item>
         <item name="colorPrimary">@color/md_theme_light_primary</item>

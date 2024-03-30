@@ -1,5 +1,6 @@
 package it.saimao.shannote;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
@@ -9,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,9 +20,11 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import android.window.OnBackInvokedDispatcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import it.saimao.shannote.activity.AboutUsActivity;
@@ -31,6 +35,7 @@ import it.saimao.shannote.database.NoteDao;
 import it.saimao.shannote.database.NoteDatabase;
 import it.saimao.shannote.databinding.ActivityMainBinding;
 import it.saimao.shannote.model.Note;
+import it.saimao.shannote.utils.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -109,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 
     private void updateRecycler() {
         if (filteredNotes.isEmpty()) {
