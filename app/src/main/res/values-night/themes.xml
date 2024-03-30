@@ -1,8 +1,8 @@
 
 <resources>
     <style name="AppTheme" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:popupBackground">@color/md_theme_dark_onTertiary</item>
         <item name="android:statusBarColor">@color/md_theme_dark_onPrimary</item>
+        <item name="android:popupBackground">@color/md_theme_dark_onSecondary</item>
         <item name="colorPrimary">@color/md_theme_dark_primary</item>
         <item name="colorOnPrimary">@color/md_theme_dark_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_dark_primaryContainer</item>
@@ -28,6 +28,46 @@
         <item name="colorOutline">@color/md_theme_dark_outline</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_dark_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_dark_inverseSurface</item>
+        <item name="colorYellow">#fabc33</item>
+        <item name="colorOnYellow">#412d00</item>
+        <item name="colorYellowContainer">#5d4200</item>
+        <item name="colorOnYellowContainer">#ffdea5</item>
+        <item name="harmonizeYellow">false</item>
+        <item name="colorCyan">#38ddc3</item>
+        <item name="colorOnCyan">#00382f</item>
+        <item name="colorCyanContainer">#005045</item>
+        <item name="colorOnCyanContainer">#60fadf</item>
+        <item name="harmonizeCyan">false</item>
+        <item name="colorGreen">#92da57</item>
+        <item name="colorOnGreen">#193800</item>
+        <item name="colorGreenContainer">#275000</item>
+        <item name="colorOnGreenContainer">#acf770</item>
+        <item name="harmonizeGreen">false</item>
+        <item name="colorOrange">#ffb4a3</item>
+        <item name="colorOnOrange">#621000</item>
+        <item name="colorOrangeContainer">#8b1b00</item>
+        <item name="colorOnOrangeContainer">#ffdad2</item>
+        <item name="harmonizeOrange">false</item>
+        <item name="colorSkyBlue">#b3c5ff</item>
+        <item name="colorOnSkyBlue">#002b75</item>
+        <item name="colorSkyBlueContainer">#20428f</item>
+        <item name="colorOnSkyBlueContainer">#dae1ff</item>
+        <item name="harmonizeSkyBlue">false</item>
+        <item name="colorViolet">#c9bfff</item>
+        <item name="colorOnViolet">#2f009c</item>
+        <item name="colorVioletContainer">#462bb2</item>
+        <item name="colorOnVioletContainer">#e5deff</item>
+        <item name="harmonizeViolet">false</item>
+        <item name="colorBrown">#ffade2</item>
+        <item name="colorOnBrown">#591149</item>
+        <item name="colorBrownContainer">#742a61</item>
+        <item name="colorOnBrownContainer">#ffd8ee</item>
+        <item name="harmonizeBrown">false</item>
+        <item name="colorPink">#fcaaff</item>
+        <item name="colorOnPink">#580064</item>
+        <item name="colorPinkContainer">#7c008d</item>
+        <item name="colorOnPinkContainer">#ffd6fc</item>
+        <item name="harmonizePink">false</item>
         <item name="colorPrimaryInverse">@color/md_theme_dark_inversePrimary</item>
     </style>
 </resources>

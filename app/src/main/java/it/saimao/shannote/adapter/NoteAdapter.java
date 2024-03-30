@@ -11,7 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Locale;
 
 import it.saimao.shannote.R;
 import it.saimao.shannote.model.Note;
@@ -21,6 +23,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     private Context context;
     private List<Note> notes;
     private NoteClickListener noteClickListener;
+
+
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a", Locale.getDefault());
+
 
     public NoteAdapter(Context context, List<Note> notes, NoteClickListener noteClickListener) {
         this.context = context;
@@ -42,7 +48,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         holder.tvNoteTitle.setText(note.getTitle());
         holder.tvNoteTitle.setSelected(true);
         holder.tvNote.setText(note.getNote());
-        holder.tvNoteDate.setText(note.getDate());
+        holder.tvNoteDate.setText(simpleDateFormat.format(note.getUpdated()));
         holder.tvNoteDate.setSelected(true);
         if (note.isPinned()) holder.ivNotePin.setVisibility(View.VISIBLE);
         else holder.ivNotePin.setVisibility(View.GONE);

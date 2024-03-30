@@ -1,0 +1,43 @@
+
+<resources>
+    <attr name="colorYellow" format="color" />
+    <attr name="colorOnYellow" format="color" />
+    <attr name="colorYellowContainer" format="color" />
+    <attr name="colorOnYellowContainer" format="color" />
+    <attr name="harmonizeYellow" format="boolean" />
+    <attr name="colorCyan" format="color" />
+    <attr name="colorOnCyan" format="color" />
+    <attr name="colorCyanContainer" format="color" />
+    <attr name="colorOnCyanContainer" format="color" />
+    <attr name="harmonizeCyan" format="boolean" />
+    <attr name="colorGreen" format="color" />
+    <attr name="colorOnGreen" format="color" />
+    <attr name="colorGreenContainer" format="color" />
+    <attr name="colorOnGreenContainer" format="color" />
+    <attr name="harmonizeGreen" format="boolean" />
+    <attr name="colorOrange" format="color" />
+    <attr name="colorOnOrange" format="color" />
+    <attr name="colorOrangeContainer" format="color" />
+    <attr name="colorOnOrangeContainer" format="color" />
+    <attr name="harmonizeOrange" format="boolean" />
+    <attr name="colorSkyBlue" format="color" />
+    <attr name="colorOnSkyBlue" format="color" />
+    <attr name="colorSkyBlueContainer" format="color" />
+    <attr name="colorOnSkyBlueContainer" format="color" />
+    <attr name="harmonizeSkyBlue" format="boolean" />
+    <attr name="colorViolet" format="color" />
+    <attr name="colorOnViolet" format="color" />
+    <attr name="colorVioletContainer" format="color" />
+    <attr name="colorOnVioletContainer" format="color" />
+    <attr name="harmonizeViolet" format="boolean" />
+    <attr name="colorBrown" format="color" />
+    <attr name="colorOnBrown" format="color" />
+    <attr name="colorBrownContainer" format="color" />
+    <attr name="colorOnBrownContainer" format="color" />
+    <attr name="harmonizeBrown" format="boolean" />
+    <attr name="colorPink" format="color" />
+    <attr name="colorOnPink" format="color" />
+    <attr name="colorPinkContainer" format="color" />
+    <attr name="colorOnPinkContainer" format="color" />
+    <attr name="harmonizePink" format="boolean" />
+</resources>

@@ -1,18 +1,15 @@
 package it.saimao.shannote.activity;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.util.TypedValue;
 import android.widget.Toast;
 
-import java.io.NotActiveException;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import it.saimao.shannote.R;
 import it.saimao.shannote.databinding.ActivityAddNoteBinding;
@@ -24,17 +21,19 @@ public class AddNoteActivity extends AppCompatActivity {
     private ActivityAddNoteBinding binding;
     private Note note;
 
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, d MMM yyyy HH:mm a", Locale.getDefault());
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddNoteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setColor();
         initListeners();
         checkForUpdate();
     }
 
+    private void setColor() {
+        binding.getRoot().setBackgroundColor(getColorFromTheme(com.google.android.material.R.attr.colorTertiaryContainer));
+    }
 
     private void checkForUpdate() {
         Serializable ser = getIntent().getSerializableExtra("old_note");
@@ -48,9 +47,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
     private void initListeners() {
         binding.ivBack.setOnClickListener(v -> finish());
-        binding.ivSave.setOnClickListener(v -> {
-            saveNote();
-        });
+        binding.ivSave.setOnClickListener(v -> saveNote());
     }
 
     private void saveNote() {
@@ -63,8 +60,9 @@ public class AddNoteActivity extends AppCompatActivity {
         if (note == null) {
             // Adding new note
             note = new Note();
-            note.setDate(simpleDateFormat.format(new Date()));
+            note.setCreated(new Date());
         }
+        note.setUpdated(new Date());
         note.setTitle(title);
         note.setNote(content);
 
@@ -72,6 +70,12 @@ public class AddNoteActivity extends AppCompatActivity {
         intent.putExtra("note", note);
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    private int getColorFromTheme(int attributeId) {
+        TypedValue typedValue = new TypedValue();
+        getTheme().resolveAttribute(attributeId, typedValue, true);
+        return ContextCompat.getColor(this, typedValue.resourceId);
     }
 
 }

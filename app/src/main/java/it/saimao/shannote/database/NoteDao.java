@@ -22,6 +22,6 @@ public interface NoteDao {
     @Delete
     void deleteNote(Note note);
 
-    @Query("SELECT * FROM notes ORDER BY pinned DESC, id DESC;")
+    @Query("SELECT * FROM notes ORDER BY pinned DESC, updated DESC;")
     List<Note> getAllNotes();
 }

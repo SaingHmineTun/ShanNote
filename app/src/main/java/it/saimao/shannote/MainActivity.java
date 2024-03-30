@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -138,8 +139,10 @@ public class MainActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.mPin) {
                 note.setPinned(!note.isPinned());
                 noteDao.updateNote(note);
+                Toast.makeText(this, note.isPinned() ? "Pinned Success!" : "Unpin Success!", Toast.LENGTH_SHORT).show();
             } else {
                 noteDao.deleteNote(note);
+                Toast.makeText(this, "Delete Note Success!", Toast.LENGTH_SHORT).show();
             }
             allNotes = noteDao.getAllNotes();
             filteredNotes.clear();
@@ -160,9 +163,11 @@ public class MainActivity extends AppCompatActivity {
             if (requestCode == ADD_NOTE_REQUEST_CODE) {
                 Note newNote = (Note) data.getSerializableExtra("note");
                 noteDao.addNote(newNote);
+                Toast.makeText(this, "Add Note Success!", Toast.LENGTH_SHORT).show();
             } else if (requestCode == UPDATE_NOTE_REQUEST_CODE) {
                 Note updatedNote = (Note) data.getSerializableExtra("note");
                 noteDao.updateNote(updatedNote);
+                Toast.makeText(this, "Update Note Success!", Toast.LENGTH_SHORT).show();
             }
 
             allNotes = noteDao.getAllNotes();
