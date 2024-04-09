@@ -11,7 +11,7 @@ import androidx.room.TypeConverters;
 import it.saimao.shannote.converters.DateConverter;
 import it.saimao.shannote.model.Note;
 
-@Database(entities = {Note.class}, version = 1, exportSchema = false)
+@Database(entities = {Note.class}, version = 2, exportSchema = false)
 @TypeConverters({DateConverter.class})
 public abstract class NoteDatabase extends RoomDatabase {
 
