@@ -1,6 +1,7 @@
 package it.saimao.shannote.adapter;
 
 import static it.saimao.shannote.utils.Utils.COLORS;
+import static it.saimao.shannote.utils.Utils.STROKE_COLORS;
 import static it.saimao.shannote.utils.Utils.getColorFromTheme;
 
 import android.content.Context;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -63,7 +66,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
          */
 
         holder.cvNoteContainer.setCardBackgroundColor(getColorFromTheme(context, COLORS.get(note.getColor())));
-
+        holder.cvNoteContainer.setStrokeColor(getColorFromTheme(context, STROKE_COLORS.get(note.getColor())));
 //        holder.cvNoteContainer.setOnClickListener(v -> noteClickListener.onNoteClicked(note));
         holder.cvNoteContainer.setOnClickListener(v -> noteClickListener.onNoteClicked(note));
         holder.cvNoteContainer.setOnLongClickListener(v -> {
@@ -80,7 +83,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
 class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    CardView cvNoteContainer;
+    MaterialCardView cvNoteContainer;
     TextView tvNoteTitle, tvNote, tvNoteDate;
     ImageView ivNotePin;
 

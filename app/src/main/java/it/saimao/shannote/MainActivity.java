@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -133,9 +134,11 @@ public class MainActivity extends AppCompatActivity {
         isSearchEnabled = false;
         NoteDatabase database = NoteDatabase.getInstance(this);
         noteDao = database.getNoteDao();
-        allNotes = noteDao.getAllNotes();
-        filteredNotes = new ArrayList<>(allNotes);
-        updateRecycler();
+        noteDao.getAllNotes().observeForever(notes -> {
+            allNotes = notes;
+            filteredNotes = new ArrayList<>(allNotes);
+            updateRecycler();
+        });
     }
 
 
@@ -150,10 +153,6 @@ public class MainActivity extends AppCompatActivity {
                 noteDao.deleteNote(note);
                 Toast.makeText(this, "Delete Note Success!", Toast.LENGTH_SHORT).show();
             }
-            allNotes = noteDao.getAllNotes();
-            filteredNotes.clear();
-            filteredNotes.addAll(allNotes);
-            noteAdapter.notifyDataSetChanged();
             return true;
         });
         popupMenu.inflate(R.menu.popup_menu);
@@ -174,13 +173,7 @@ public class MainActivity extends AppCompatActivity {
                 Note updatedNote = (Note) data.getSerializableExtra("note");
                 noteDao.updateNote(updatedNote);
                 Toast.makeText(this, "Update Note Success!", Toast.LENGTH_SHORT).show();
-            }
-
-            allNotes = noteDao.getAllNotes();
-            filteredNotes.clear();
-            filteredNotes.addAll(allNotes);
-            if (noteAdapter != null) noteAdapter.notifyDataSetChanged();
-            else updateRecycler();
+            } else updateRecycler();
         }
     }
 

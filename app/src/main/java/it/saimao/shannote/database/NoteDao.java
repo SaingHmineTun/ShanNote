@@ -1,5 +1,6 @@
 package it.saimao.shannote.database;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -23,5 +24,5 @@ public interface NoteDao {
     void deleteNote(Note note);
 
     @Query("SELECT * FROM notes ORDER BY pinned DESC, updated DESC;")
-    List<Note> getAllNotes();
+    LiveData<List<Note>> getAllNotes();
 }

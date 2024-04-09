@@ -3,34 +3,31 @@ package it.saimao.shannote.activity;
 import static it.saimao.shannote.utils.Utils.COLORS;
 import static it.saimao.shannote.utils.Utils.getColorFromTheme;
 
+import android.app.AlertDialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.View;
-import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.io.Serializable;
+import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import it.saimao.shannote.R;
+import it.saimao.shannote.database.NoteDao;
+import it.saimao.shannote.database.NoteDatabase;
 import it.saimao.shannote.databinding.ActivityAddNoteBinding;
 import it.saimao.shannote.model.Note;
+import it.saimao.shannote.viewmodel.AddNoteViewModel;
 
 public class AddNoteActivity extends AppCompatActivity {
 
@@ -38,15 +35,29 @@ public class AddNoteActivity extends AppCompatActivity {
     private ActivityAddNoteBinding binding;
     private Note note;
     private CardView selectedColor;
+    private NoteDao noteDao;
+    private AddNoteViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddNoteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initListeners();
+        initViewModel();
         checkForUpdate();
+        initListeners();
         initBackgroundColor();
+        initDatabase();
+    }
+
+    private void initViewModel() {
+        viewModel = new ViewModelProvider(this).get(AddNoteViewModel.class);
+
+    }
+
+    private void initDatabase() {
+        if (note.getCreated() != null)
+            noteDao = NoteDatabase.getInstance(this).getNoteDao();
     }
 
     private void initBackgroundColor() {
@@ -66,8 +77,54 @@ public class AddNoteActivity extends AppCompatActivity {
             case 1 -> selectedColor = binding.cv1;
             case 2 -> selectedColor = binding.cv2;
             case 3 -> selectedColor = binding.cv3;
+            case 4 -> selectedColor = binding.cv4;
         }
         selectedColor.getChildAt(0).setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewModel.hasUnsavedChanges()) {
+            showUnsavedChangesDialog();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    //    @Override
+//    protected void onDestroy() {
+//        Log.d("Kham", "Add Note Activity On Destroy");
+//        if (note != null) {
+//            // Update the note
+//            if (!note.getTitle().equals(binding.etTitle.getText().toString()) || note.getNote().equals(binding.etNote.getText().toString())) {
+//
+//                Log.d("Kham", "Update Note : Save unsaved changes");
+//                showUnsavedChangesDialog();
+//            } else {
+//                super.onDestroy();
+//            }
+//        } else {
+//            // Add New Note
+//            if (!binding.etTitle.getText().toString().isEmpty() || !binding.etNote.getText().toString().isEmpty()) {
+//                Log.d("Kham", "Add Note : Save unsaved changes");
+//                showUnsavedChangesDialog();
+//            } else {
+//                super.onDestroy();
+//            }
+//        }
+//    }
+
+    private void showUnsavedChangesDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Unsaved Changes")
+                .setMessage("You have unsaved changes. Do you want to save them before exiting?")
+                .setPositiveButton("Save", (dialog, which) -> {
+                    saveNote();
+                })
+                .setNegativeButton("Discard", (dialog, which) -> {
+                    finish();
+                })
+                .show();
     }
 
     private void checkForUpdate() {
@@ -77,18 +134,42 @@ public class AddNoteActivity extends AppCompatActivity {
             binding.etTitle.setText(note.getTitle());
             binding.etNote.setText(note.getNote());
             binding.ibPin.setImageResource(note.isPinned() ? R.drawable.ic_pin : R.drawable.ic_unpin);
-            binding.tvLastUpdated.setText(getString(R.string.last_updated) + " : " + new SimpleDateFormat("EEE, d MMM yyyy HH:mm a", Locale.getDefault()).format(note.getUpdated()));
+            binding.tvLastUpdated.setText(MessageFormat.format("{0} : {1}", getString(R.string.last_updated), new SimpleDateFormat("EEE, d MMM yyyy HH:mm a", Locale.getDefault()).format(note.getUpdated())));
         } else {
             note = new Note();
             binding.tvLastUpdated.setText(R.string.newly_created);
         }
     }
 
+    private final TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (note.getCreated() != null) {
+                // Update the note
+                viewModel.setHasUnsavedChanges((!(note.getTitle().equals(binding.etTitle.getText().toString())) || !(note.getNote().equals(binding.etNote.getText().toString()))));
+            } else {
+                // Add New Note
+                viewModel.setHasUnsavedChanges(!binding.etTitle.getText().toString().isEmpty() || !binding.etNote.getText().toString().isEmpty());
+            }
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
     private void initListeners() {
-        binding.ivBack.setOnClickListener(v -> finish());
+        binding.ivBack.setOnClickListener(v -> onBackPressed());
         binding.ivSave.setOnClickListener(v -> saveNote());
         binding.ibPin.setOnClickListener(v -> {
             note.setPinned(!note.isPinned());
+            if (noteDao != null) noteDao.updateNote(note);
             binding.ibPin.setImageResource(note.isPinned() ? R.drawable.ic_pin : R.drawable.ic_unpin);
         });
         binding.ibColor.setOnClickListener(v -> {
@@ -98,6 +179,8 @@ public class AddNoteActivity extends AppCompatActivity {
                 binding.lyTheme.setVisibility(View.GONE);
             }
         });
+        binding.etTitle.addTextChangedListener(textWatcher);
+        binding.etNote.addTextChangedListener(textWatcher);
     }
 
     private void saveNote() {
@@ -122,12 +205,6 @@ public class AddNoteActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-    }
-
     public void changeColor(View view) {
         selectedColor.getChildAt(0).setVisibility(View.GONE);
         if (view.getId() == R.id.cv0) {
@@ -141,6 +218,12 @@ public class AddNoteActivity extends AppCompatActivity {
         } else if (view.getId() == R.id.cv3) {
 
             setColor(3);
+        } else if (view.getId() == R.id.cv4) {
+            setColor(4);
+        }
+        if (noteDao != null) {
+            noteDao.updateNote(note);
         }
     }
+
 }

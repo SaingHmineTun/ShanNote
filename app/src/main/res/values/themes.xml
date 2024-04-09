@@ -1,9 +1,9 @@
-
 <resources>
+
     <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
 
         <item name="android:statusBarColor">@color/md_theme_light_onPrimary</item>
-        <item name="android:popupBackground">@color/md_theme_light_onSecondary</item>
+        <item name="android:popupBackground">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimary">@color/md_theme_light_primary</item>
         <item name="colorOnPrimary">@color/md_theme_light_onPrimary</item>
         <item name="colorPrimaryContainer">@color/md_theme_light_primaryContainer</item>
@@ -29,47 +29,8 @@
         <item name="colorOutline">@color/md_theme_light_outline</item>
         <item name="colorOnSurfaceInverse">@color/md_theme_light_inverseOnSurface</item>
         <item name="colorSurfaceInverse">@color/md_theme_light_inverseSurface</item>
-        <item name="colorYellow">#7b5800</item>
-        <item name="colorOnYellow">#ffffff</item>
-        <item name="colorYellowContainer">#ffdea5</item>
-        <item name="colorOnYellowContainer">#271900</item>
-        <item name="harmonizeYellow">false</item>
-        <item name="colorCyan">#006b5d</item>
-        <item name="colorOnCyan">#ffffff</item>
-        <item name="colorCyanContainer">#60fadf</item>
-        <item name="colorOnCyanContainer">#00201b</item>
-        <item name="harmonizeCyan">false</item>
-        <item name="colorGreen">#366b00</item>
-        <item name="colorOnGreen">#ffffff</item>
-        <item name="colorGreenContainer">#acf770</item>
-        <item name="colorOnGreenContainer">#0c2000</item>
-        <item name="harmonizeGreen">false</item>
-        <item name="colorOrange">#b52600</item>
-        <item name="colorOnOrange">#ffffff</item>
-        <item name="colorOrangeContainer">#ffdad2</item>
-        <item name="colorOnOrangeContainer">#3d0700</item>
-        <item name="harmonizeOrange">false</item>
-        <item name="colorSkyBlue">#3c5ba9</item>
-        <item name="colorOnSkyBlue">#ffffff</item>
-        <item name="colorSkyBlueContainer">#dae1ff</item>
-        <item name="colorOnSkyBlueContainer">#001849</item>
-        <item name="harmonizeSkyBlue">false</item>
-        <item name="colorViolet">#5e47cb</item>
-        <item name="colorOnViolet">#ffffff</item>
-        <item name="colorVioletContainer">#e5deff</item>
-        <item name="colorOnVioletContainer">#1b0063</item>
-        <item name="harmonizeViolet">false</item>
-        <item name="colorBrown">#90427a</item>
-        <item name="colorOnBrown">#ffffff</item>
-        <item name="colorBrownContainer">#ffd8ee</item>
-        <item name="colorOnBrownContainer">#3b002f</item>
-        <item name="harmonizeBrown">false</item>
-        <item name="colorPink">#a300b8</item>
-        <item name="colorOnPink">#ffffff</item>
-        <item name="colorPinkContainer">#ffd6fc</item>
-        <item name="colorOnPinkContainer">#36003e</item>
-        <item name="harmonizePink">false</item>
         <item name="colorPrimaryInverse">@color/md_theme_light_inversePrimary</item>
     </style>
+
     <style name="Theme.ShanNote" parent="AppTheme" />
 </resources>

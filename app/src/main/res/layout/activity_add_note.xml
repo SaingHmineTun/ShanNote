@@ -69,6 +69,25 @@
             android:id="@+id/cv0"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:backgroundTint="?colorSurface"
+            android:onClick="changeColor"
+            app:cardCornerRadius="100dp"
+            app:strokeColor="?colorOnSurface"
+            app:strokeWidth="1dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@string/apply"
+                android:padding="8dp"
+                android:src="@drawable/ic_apply"
+                android:visibility="gone" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cv1"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:backgroundTint="?colorPrimaryContainer"
             android:onClick="changeColor"
             app:cardCornerRadius="100dp"
@@ -85,7 +104,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv1"
+            android:id="@+id/cv2"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:backgroundTint="?colorSecondaryContainer"
@@ -104,7 +123,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv2"
+            android:id="@+id/cv3"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:backgroundTint="?colorTertiaryContainer"
@@ -123,7 +142,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv3"
+            android:id="@+id/cv4"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:backgroundTint="?colorErrorContainer"
@@ -156,18 +175,23 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <EditText
-        android:id="@+id/etNote"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="4dp"
-        android:layout_weight="1"
-        android:autofillHints=""
-        android:background="@android:color/transparent"
-        android:gravity="top"
-        android:hint="Add Note"
-        android:padding="8dp"
-        android:textSize="18sp" />
+        android:layout_weight="1">
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:autofillHints=""
+            android:background="@android:color/transparent"
+            android:gravity="top"
+            android:hint="Add Note"
+            android:inputType="textMultiLine"
+            android:padding="8dp"
+            android:textSize="18sp" />
+    </ScrollView>
 
     <TextView
         android:id="@+id/tvLastUpdated"
