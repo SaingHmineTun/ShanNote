@@ -1,10 +1,13 @@
 package it.saimao.shannote.adapter;
 
+import static android.content.Context.MODE_PRIVATE;
 import static it.saimao.shannote.utils.Utils.COLORS;
 import static it.saimao.shannote.utils.Utils.STROKE_COLORS;
 import static it.saimao.shannote.utils.Utils.getColorFromTheme;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.card.MaterialCardView;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
@@ -24,7 +28,7 @@ import java.util.Locale;
 import it.saimao.shannote.R;
 import it.saimao.shannote.model.Note;
 
-public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
+public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.NoteViewHolder> {
 
     private Context context;
     private List<Note> notes;
@@ -46,6 +50,20 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.note_item, parent, false);
         return new NoteViewHolder(view);
+    }
+
+    private Typeface tf;
+
+    private void initCustomFont() {
+        SharedPreferences prefs = context.getSharedPreferences("MyCustomFont", MODE_PRIVATE);
+        String fontPath = prefs.getString("font_path", null);
+
+        if (fontPath != null) {
+            File fontFile = new File(fontPath);
+            if (fontFile.exists()) {
+                tf = Typeface.createFromFile(fontFile);
+            }
+        }
     }
 
     @Override
@@ -79,21 +97,29 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
     public int getItemCount() {
         return notes.size();
     }
-}
 
-class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    MaterialCardView cvNoteContainer;
-    TextView tvNoteTitle, tvNote, tvNoteDate;
-    ImageView ivNotePin;
+    class NoteViewHolder extends RecyclerView.ViewHolder {
 
-    public NoteViewHolder(View itemView) {
-        super(itemView);
-        cvNoteContainer = itemView.findViewById(R.id.note_item_container);
-        tvNoteTitle = itemView.findViewById(R.id.note_title);
-        tvNote = itemView.findViewById(R.id.note_content);
-        tvNoteDate = itemView.findViewById(R.id.note_date);
-        ivNotePin = itemView.findViewById(R.id.note_pin);
+        MaterialCardView cvNoteContainer;
+        TextView tvNoteTitle, tvNote, tvNoteDate;
+        ImageView ivNotePin;
+
+        public NoteViewHolder(View itemView) {
+            super(itemView);
+            cvNoteContainer = itemView.findViewById(R.id.note_item_container);
+            tvNoteTitle = itemView.findViewById(R.id.note_title);
+            tvNote = itemView.findViewById(R.id.note_content);
+            tvNoteDate = itemView.findViewById(R.id.note_date);
+            ivNotePin = itemView.findViewById(R.id.note_pin);
+            initCustomFont();
+            if (tf != null) {
+                tvNoteTitle.setTypeface(tf);
+                tvNote.setTypeface(tf);
+                tvNoteDate.setTypeface(tf);
+            }
+        }
     }
 }
+
 

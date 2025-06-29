@@ -1,31 +1,26 @@
 package it.saimao.shannote;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-import android.window.OnBackInvokedDispatcher;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import it.saimao.shannote.activity.AboutUsActivity;
@@ -121,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void updateRecycler() {
-        if (filteredNotes.isEmpty()) {
+        if (filteredNotes == null || filteredNotes.isEmpty()) {
             binding.llEmpty.setVisibility(View.VISIBLE);
             binding.rvNotes.setVisibility(View.GONE);
         } else {
@@ -162,12 +157,26 @@ public class MainActivity extends AppCompatActivity {
         popupMenu.show();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Log.d("TMK", "On App Start");
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if (Utils.IS_CHANGE_FONT) {
+            updateRecycler();
+            Utils.IS_CHANGE_FONT = false;
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-
             if (requestCode == ADD_NOTE_REQUEST_CODE) {
                 Note newNote = (Note) data.getSerializableExtra("note");
                 noteDao.addNote(newNote);

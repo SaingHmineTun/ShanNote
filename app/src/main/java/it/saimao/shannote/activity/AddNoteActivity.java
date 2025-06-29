@@ -11,6 +11,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -34,6 +35,7 @@ import it.saimao.shannote.database.NoteDao;
 import it.saimao.shannote.database.NoteDatabase;
 import it.saimao.shannote.databinding.ActivityAddNoteBinding;
 import it.saimao.shannote.model.Note;
+import it.saimao.shannote.utils.Utils;
 import it.saimao.shannote.viewmodel.AddNoteViewModel;
 
 public class AddNoteActivity extends AppCompatActivity {
@@ -222,9 +224,11 @@ public class AddNoteActivity extends AppCompatActivity {
                 // Save the font path for future use
                 SharedPreferences prefs = getSharedPreferences("MyCustomFont", MODE_PRIVATE);
                 prefs.edit().putString("font_path", fontFile.getAbsolutePath()).apply();
+                Utils.IS_CHANGE_FONT = true;
             }
         }
     }
+
 
     private void applyFontToApp(Typeface typeface) {
 
