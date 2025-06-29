@@ -5,17 +5,24 @@ import static it.saimao.shannote.utils.Utils.getColorFromTheme;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.Serializable;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -48,7 +55,10 @@ public class AddNoteActivity extends AppCompatActivity {
         initListeners();
         initBackgroundColor();
         initDatabase();
+        initWithCustomFont();
     }
+
+
 
     private void initViewModel() {
         viewModel = new ViewModelProvider(this).get(AddNoteViewModel.class);
@@ -179,9 +189,81 @@ public class AddNoteActivity extends AppCompatActivity {
                 binding.lyTheme.setVisibility(View.GONE);
             }
         });
+        binding.ibFont.setOnClickListener(v -> openFontPicker());
+
         binding.etTitle.addTextChangedListener(textWatcher);
         binding.etNote.addTextChangedListener(textWatcher);
     }
+
+    static final int PICK_FONT_FILE_REQUEST_CODE = 1;
+
+    void openFontPicker() {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, PICK_FONT_FILE_REQUEST_CODE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_FONT_FILE_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            Uri fontUri = data.getData();
+
+            // Persist permission so you can reuse it later
+            getContentResolver().takePersistableUriPermission(fontUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+            // Copy the font file to internal storage
+            File fontFile = copyFontToInternalStorage(fontUri);
+            if (fontFile != null) {
+                // Apply the font to the TextView
+                applyFontToApp(Typeface.createFromFile(fontFile));
+
+                // Save the font path for future use
+                SharedPreferences prefs = getSharedPreferences("MyCustomFont", MODE_PRIVATE);
+                prefs.edit().putString("font_path", fontFile.getAbsolutePath()).apply();
+            }
+        }
+    }
+
+    private void applyFontToApp(Typeface typeface) {
+
+        binding.tvLastUpdated.setTypeface(typeface);
+        binding.etTitle.setTypeface(typeface);
+        binding.etNote.setTypeface(typeface);
+    }
+
+
+    private void initWithCustomFont() {
+        SharedPreferences prefs = getSharedPreferences("MyCustomFont", MODE_PRIVATE);
+        String fontPath = prefs.getString("font_path", null);
+
+        if (fontPath != null) {
+            File fontFile = new File(fontPath);
+            if (fontFile.exists()) {
+                applyFontToApp(Typeface.createFromFile(fontFile));
+            }
+        }
+
+    }
+
+    private File copyFontToInternalStorage(Uri uri) {
+        File file = new File(getFilesDir(), "custom_font.ttf"); // You can also generate unique names
+        try (InputStream in = getContentResolver().openInputStream(uri);
+             OutputStream out = new FileOutputStream(file)) {
+
+            byte[] buffer = new byte[1024];
+            int length;
+            while ((length = in.read(buffer)) > 0) {
+                out.write(buffer, 0, length);
+            }
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     private void saveNote() {
         String title = binding.etTitle.getText().toString();

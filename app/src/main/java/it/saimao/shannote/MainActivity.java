@@ -100,13 +100,16 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filteredNotes.clear();
-                if (s.toString().isEmpty()) {
-                    filteredNotes.addAll(allNotes);
-                } else {
-                    filteredNotes.addAll(allNotes.stream().filter(note -> note.getTitle().toLowerCase().contains(s) || note.getNote().toLowerCase().contains(s)).collect(Collectors.toList()));
+                if (filteredNotes != null) {
+                    filteredNotes.clear();
+
+                    if (s.toString().isEmpty()) {
+                        filteredNotes.addAll(allNotes);
+                    } else {
+                        filteredNotes.addAll(allNotes.stream().filter(note -> note.getTitle().toLowerCase().contains(s) || note.getNote().toLowerCase().contains(s)).collect(Collectors.toList()));
+                    }
+                    noteAdapter.notifyDataSetChanged();
                 }
-                noteAdapter.notifyDataSetChanged();
             }
 
             @Override

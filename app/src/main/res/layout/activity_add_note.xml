@@ -26,7 +26,14 @@
                 android:background="@android:color/transparent"
                 android:contentDescription="@string/save_note"
                 android:src="@drawable/ic_back" />
-
+            <ImageButton
+                android:id="@+id/ibFont"
+                android:layout_width="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@id/ibColor"
+                android:background="@android:color/transparent"
+                android:contentDescription="@string/save_note"
+                android:src="@drawable/ic_font" />
             <ImageButton
                 android:id="@+id/ibColor"
                 android:layout_width="?attr/actionBarSize"
@@ -37,6 +44,7 @@
                 android:src="@drawable/ic_color" />
 
             <ImageButton
+                android:visibility="gone"
                 android:id="@+id/ibPin"
                 android:layout_width="?attr/actionBarSize"
                 android:layout_height="match_parent"
