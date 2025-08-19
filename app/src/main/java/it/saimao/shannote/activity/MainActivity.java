@@ -1,15 +1,17 @@
-package it.saimao.shannote;
+package it.saimao.shannote.activity;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,13 +20,11 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import it.saimao.shannote.activity.AboutUsActivity;
-import it.saimao.shannote.activity.AddNoteActivity;
+import it.saimao.shannote.R;
 import it.saimao.shannote.adapter.NoteAdapter;
 import it.saimao.shannote.adapter.NoteClickListener;
 import it.saimao.shannote.database.NoteDao;
@@ -60,8 +60,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
         init();
         initListeners();
     }

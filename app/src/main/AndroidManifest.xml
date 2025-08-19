@@ -15,14 +15,14 @@
         <activity
             android:name=".activity.AddNoteActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
 
         <activity
             android:name=".activity.AboutUsActivity"
             android:exported="false"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".activity.MainActivity" />
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

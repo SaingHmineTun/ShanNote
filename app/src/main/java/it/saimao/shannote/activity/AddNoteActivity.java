@@ -11,13 +11,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.io.File;
@@ -50,8 +53,18 @@ public class AddNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         binding = ActivityAddNoteBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            return insets;
+        });
+
+        onGoback();
+
         initViewModel();
         checkForUpdate();
         initListeners();
@@ -60,6 +73,19 @@ public class AddNoteActivity extends AppCompatActivity {
         initWithCustomFont();
     }
 
+    private void onGoback() {
+        // Add this inside onCreate, after other initializations
+        getOnBackPressedDispatcher().addCallback(this, new androidx.activity.OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                if (viewModel.hasUnsavedChanges()) {
+                    showUnsavedChangesDialog();
+                } else {
+                    finish();
+                }
+            }
+        });
+    }
 
 
     private void initViewModel() {
@@ -92,15 +118,6 @@ public class AddNoteActivity extends AppCompatActivity {
             case 4 -> selectedColor = binding.cv4;
         }
         selectedColor.getChildAt(0).setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (viewModel.hasUnsavedChanges()) {
-            showUnsavedChangesDialog();
-        } else {
-            super.onBackPressed();
-        }
     }
 
     //    @Override
